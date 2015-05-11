@@ -1,11 +1,12 @@
-// 
-// 
+// testGame.c
+// Tests for Game.c
+// Nathan Zhen, Jack Abroon, Holly Ahel and Jessica Chen
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 
-#include "Game-1.07.h"
+#include "Game.h"
 
 #define DEFAULT_DISCIPLINES {STUDENT_BQN, STUDENT_MMONEY, STUDENT_MJ, 
                 STUDENT_MMONEY, STUDENT_MJ, STUDENT_BPS, STUDENT_MTV, 
@@ -14,19 +15,66 @@
                 STUDENT_MMONEY, STUDENT_MTV, STUDENT_BQN, STUDENT_BPS }
 #define DEFAULT_DICE {9,10,8,12,6,5,3,11,3,11,4,6,4,7,9,2,8,10,5}
 
-#define TESTING_DICE_VALUE 4
-#define TERRA_NULLIS -1
-
 int disciplines[] = DEFAULT_DISCIPLINES;
 int dice[] = DEFAULT_DICE;
 Game g = newGame (disciplines, dice);
 
+// Setters
+void testNewGame (void);
+void testMakeAction (void);
+
+// Getters
+void testGetDiscipline (void);
+void testGetDiceValue (void);
+void testGetMostARCs (void);
+void testGetMostPublications (void);
+void testGetTurnNumber (void);
+void testGetWhoseTurn (void);
+void testGetCampus (void);
+void testGetARC (void);
+
+// isLegal
+void testIsLegalAction (void);
+
+// Gets data about a specified player
+void testGetKPIpoints (void);
+void testGetARCs (void);
+void testGetGO8s (void);
+void testGetCampuses (void);
+void testGetIPs (void);
+void testGetPublications (void);
+void testGetStudents (void);
+void testGetExchangeRate (void);
+
 int main (int argc, char *argv[]) {
 
-    typedef struct _game { 
-    int currentTurn;
-    ... more stuff in here
-    } game;
+    // Setters
+    testNewGame();
+    testMakeAction();
+
+    // Getters
+    testGetDiscipline();
+    testGetDiceValue();
+    testGetMostARCs();
+    testGetMostPublications();
+    testGetTurnNumber();
+    testGetWhoseTurn();
+    testGetCampus();
+    testGetARC();
+
+    // isLegal
+    testIsLegalAction();
+
+    // Gets data about a specified player
+    testGetKPIpoints();
+    testGetARCs();
+    testGetGO8s();
+    testGetCampuses();
+    testGetIPs();
+    testGetPublications();
+    testGetStudents();
+    testGetExchangeRate();
+
 
     printf ("All tests passed, you are Awesome!\n");
 
@@ -62,6 +110,13 @@ void testNewGame (void) {
     //   Game g = newGame (disciplines, dice);
     Game newGame (int discipline[], int dice[]);
 
+    //everyone has the same amount of disciplines
+
+    //everyone has no ARCs, campuses or GO8
+
+    //different unis starting in different places
+
+
 }
 
 void testMakeAction (void) {
@@ -82,11 +137,11 @@ void testGetDiscipline (void) {
 
 }
 
-/***************NATHAN'S TESTS******************/
 void testGetDiceValue (void) {
     // what dice value produces students in the specified region?
     // 2..12
-    int getDiceValue (Game g, intregionID);
+    printf ("Testing getDiceValue.\n");
+
     assert (getDiceValue (g, 1) == 9);
     assert (getDiceValue (g, 2) == 10);
     assert (getDiceValue (g, 3) == 8);
@@ -110,6 +165,9 @@ void testGetDiceValue (void) {
     assert (getDiceValue (g, 17) == 8);
     assert (getDiceValue (g, 18) == 10);
     assert (getDiceValue (g, 19) == 5);
+
+    disposeGame (g);
+    printf ("getDiceValue passed!\n");
 }
 
 void testGetMostARCs (void) {
@@ -162,7 +220,6 @@ void testGetWhoseTurn (void) {
 
     assert (getWhoseTurn (g) == UNI_C);
 }
-    /***************NATHAN'S TESTS******************/
 
 void testGetCampus (void) {
     // return the contents of the given vertex (ie campus code or 
