@@ -1,0 +1,50 @@
+///////NOTES
+
+** Make sure to use 4 spaces per indent
+** Make sure code doesn't go over 72 characters per line
+** Adhere to style guide
+** Edit with anything you want to add
+
+Game:
+- Create the map with vertices, edges and regions (best if 1 person
+        writes this).
+    - Each shows what is contained within it
+    - As well as who the owner is (for vertices and edges)
+    - Also needs to know what vertices are adjacent (for edges and regions)
+
+- Player
+    - What they own
+    - How many resources they have
+
+
+Functions (we need to split these up amongst ourselves):
+- Hard
+    newGame
+    makeAction
+
+    isLegalAction
+
+- Medium
+    throwDice
+
+    getDiscipline
+    getDiceValue
+    getCampus
+    getARC
+    getExchangeRate
+
+- Easy
+    disposeGame //done
+
+    getMostARCs
+    getMostPublications
+    getTurnNumber
+    getWhoseTurn
+
+    getKPIpoints
+    getARCs
+    getCampuses
+    getGO8s
+    getIPs
+    getPublications
+    getStudents

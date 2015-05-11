@@ -5,14 +5,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-
+#include <string.h>
 #include "Game.h"
 
 #define DEFAULT_DISCIPLINES {STUDENT_BQN, STUDENT_MMONEY, STUDENT_MJ, 
                 STUDENT_MMONEY, STUDENT_MJ, STUDENT_BPS, STUDENT_MTV, 
                 STUDENT_MTV, STUDENT_BPS,STUDENT_MTV, STUDENT_BQN, 
                 STUDENT_MJ, STUDENT_BQN, STUDENT_THD, STUDENT_MJ, 
-                STUDENT_MMONEY, STUDENT_MTV, STUDENT_BQN, STUDENT_BPS }
+                STUDENT_MMONEY, STUDENT_MTV, STUDENT_BQN, STUDENT_BPS}
 #define DEFAULT_DICE {9,10,8,12,6,5,3,11,3,11,4,6,4,7,9,2,8,10,5}
 
 int disciplines[] = DEFAULT_DISCIPLINES;
@@ -33,7 +33,7 @@ void testGetWhoseTurn (void);
 void testGetCampus (void);
 void testGetARC (void);
 
-// isLegal
+// isLegalAction
 void testIsLegalAction (void);
 
 // Gets data about a specified player
@@ -82,7 +82,7 @@ int main (int argc, char *argv[]) {
 
 
 
-/* **** SETTERS **** */
+// Setters
 void testNewGame (void) {
     // make a new game, given the disciplines produced by each
     // region, and the value on the dice discs in each region.
@@ -127,8 +127,9 @@ void testMakeAction (void) {
     void makeAction (Game g, action a);
 
 }
-/* **** Functions which GET data about the game aka GETTERS **** */
 
+
+// Getters
 void testGetDiscipline (void) {
     // what type of students are produced by the specified region?
     // regionID is the index of the region in the newGame arrays (above) 
@@ -234,6 +235,7 @@ void testGetARC (void) {
 
 }
 
+// isLegalAction
 void testIsLegalAction (void) {
     // returns TRUE if it is legal for the current
     // player to make the specified action, FALSE otherwise.
@@ -263,8 +265,7 @@ void testIsLegalAction (void) {
     int isLegalAction (Game g, action a);
 }
 
-// --- get data about a specified player ---
-
+// Gets data about a specified player
 void testGetKPIpoints (void) {
     // return the number of KPI points the specified player currently has
     int getKPIpoints (Game g, int player);
