@@ -224,7 +224,10 @@ int getDiceValue (Game g, int regionID) {
 // this is NO_ONE until the first arc is purchased after the game 
 // has started.  
 int getMostARCs (Game g) {
-
+    
+    int prestigeUni = ...;
+    
+    return prestigeUni;
 }
 
 // which university currently has the prestige award for the most pubs?
@@ -235,7 +238,12 @@ int getMostPublications (Game g) {
 
 // return the current turn number of the game -1,0,1, ..
 int getTurnNumber (Game g) {
-
+    
+    //this assumes that there is a counter every time a dice is thrown
+    // or a player passes, and that this counter is given to struct game.
+    int turnNum = g->currentTurn;
+    
+    return turnNum;
 }
 
 // return the player id of the player whose turn it is 
@@ -254,7 +262,7 @@ int getWhoseTurn (Game g) {
         playerID = NO_ONE;
     }
 
-    return player;
+    return playerID;
 }
 
 // return the contents of the given vertex (ie campus code or 
@@ -307,30 +315,42 @@ int getKPIpoints (Game g, int player) {
 
 // return the number of ARC grants the specified player currently has
 int getARCs (Game g, int player) {
-
+    
+    int numOfARCs = player->ARCs;
+    
     return numOfARCs;
 }
 
 // return the number of GO8 campuses the specified player currently has
 int getGO8s (Game g, int player) {
 
+    int numOfGO8s = player->GO8Campuses;
+    
     return numOfGO8s;
 }
 
 // return the number of normal Campuses the specified player currently has
 int getCampuses (Game g, int player) {
-
+    
+    int numOfCampuses = player->campuses;
+    
     return numOfCampuses;
 }
 
 // return the number of IP Patents the specified player currently has
 int getIPs (Game g, int player) {
-
+    
+    int numIPs = player->patents;
+    
+    return numIPs;
 }
 
 // return the number of Publications the specified player currently has
 int getPublications (Game g, int player) {
-
+    
+    int numPub = player->publications;
+   
+    return numPub;
 }
 
 // return the number of students of the specified discipline type 

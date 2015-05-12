@@ -34,17 +34,16 @@ Functions (we need to split these up amongst ourselves):
     getExchangeRate
 
 - Easy
-    disposeGame //done
+    disposeGame ✔️
 
-    getMostARCs
+    getMostARCs 
     getMostPublications
-    getTurnNumber
-    getWhoseTurn
-
+    getTurnNumber ✔️
+    getWhoseTurn ✔️
     getKPIpoints
-    getARCs
-    getCampuses
-    getGO8s
-    getIPs
-    getPublications
-    getStudents
+    getARCs ✔️
+    getCampuses ✔️
+    getGO8s ✔️
+    getIPs ✔️
+    getPublications ✔️
+    getStudents ✔️
