@@ -226,13 +226,20 @@ void testGetCampus (void) {
     // return the contents of the given vertex (ie campus code or 
     // VACANT_VERTEX)
     int getCampus(Game g, path pathToVertex);
+    
+    //terra nullius
+    assert (getCampus (g, "L") == VACANT_VERTEX);
+    assert (getCampus (g, "R") == VACANT_VERTEX);
 
 }
 
 void testGetARC (void) {
     // the contents of the given edge (ie ARC code or vacent ARC)
     int getARC(Game g, path pathToEdge);
-
+    
+    //terra nullius
+    assert (getARC (g, "L") == VACANT_PATH);
+    assert (getARC (g, "R") == VACANT_PATH);
 }
 
 // isLegalAction
@@ -335,6 +342,11 @@ void testGetKPIpoints (void) {
 void testGetARCs (void) {
     // return the number of ARC grants the specified player currently has
     int getARCs (Game g, int player);
+    
+    //terra nullius
+    assert (getARCs (g, UNI_A) == START_ARCS);
+    assert (getARCS (g, UNI_B) == START_ARCS);
+    assert (getARCs (g, UNI_C) == START_ARCS);
 
 }
 
