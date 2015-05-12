@@ -19,6 +19,12 @@
 // Terra Nullis (state of game before dice is first rolled)
 #define TERRA_NULLIS -1
 
+// player ID of each university
+#define NO_ONE 0
+#define UNI_A 1
+#define UNI_B 2
+#define UNI_C 3
+
 // Map 
 #define NUM_VERTICES 54
 #define NUM_EDGES 72
@@ -235,7 +241,20 @@ int getTurnNumber (Game g) {
 // return the player id of the player whose turn it is 
 // the result of this function is NO_ONE during Terra Nullis
 int getWhoseTurn (Game g) {
+    
+    int playerID;
+    
+    if (g->currentTurn%3 == 0) {
+        playerID = UNI_A;
+    } else if (g->currentTurn%3 == 1) {
+        playerID = UNI_B;
+    } else if (g->currentTurn%3 == 2) {
+        playerID = UNI_C;
+    } else {
+        playerID = NO_ONE;
+    }
 
+    return player;
 }
 
 // return the contents of the given vertex (ie campus code or 
