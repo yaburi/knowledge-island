@@ -353,6 +353,11 @@ void testGetCampuses (void) {
 void testGetIPs (void) {
     // return the number of IP Patents the specified player currently has
     int getIPs (Game g, int player);
+    
+    //testing that all players/universities start with 0 IP Patents
+    assert (getIPs(Game g, 0) == 0);
+    assert (getIPs(Game g, 1) == 0);
+    assert (getIPs(Game g, 2) == 0);
 
 }
 
@@ -360,6 +365,10 @@ void testGetPublications (void) {
     // return the number of Publications the specified player currently has
     int getPublications (Game g, int player);
 
+    // all start with 0 publications
+    assert (getPublications(g, players [1]) == 0);
+    assert (getPublications(g, players [2]) == 0);
+    assert (getPublications(g, players [3]) == 0);
 }
 
 void testGetStudents (void) {
@@ -367,6 +376,53 @@ void testGetStudents (void) {
     // the specified player currently has
     int getStudents (Game g, int player, int discipline);
 
+    
+    // testing all players(0,1,2) will all start with 3 problem solving students
+    assert (getStudents(g, UNI_A, STUDENT_BPS) == 3);
+    assert (getStudents(g, UNI_B, STUDENT_BPS) == 3);
+    assert (getStudents(g, UNI_C, STUDENT_BPS) == 3);
+    
+    // testing all players will all start with 1 MTV
+    assert (getStudents(g, UNI_A, STUDENT_MTV) == 1);
+    assert (getStudents(g, UNI_B, STUDENT_MTV) == 1);
+    assert (getStudents(g, UNI_C, STUDENT_MTV) == 1);
+    
+    // testing all players will start with 1 MJ
+    assert (getStudents(g, UNI_A, STUDENT_MJ) == 1);
+    assert (getStudents(g, UNI_B, STUDENT_MJ) == 1);
+    assert (getStudents(g, UNI_C, STUDENT_MJ) == 1);
+    
+    // testing all players start with 0 ThD
+    assert (getStudents(g, UNI_A, STUDENT_THD) == 0);
+    assert (getStudents(g, UNI_B, STUDENT_THD) == 0);
+    assert (getStudents(g, UNI_C, STUDENT_THD) == 0);
+    
+    // testing all players start with 1 MMONEY
+    assert (getStudents(g, UNI_A, STUDENT_MMONEY) == 1);
+    assert (getStudents(g, UNI_B, STUDENT_MMONEY) == 1);
+    assert (getStudents(g, UNI_C, STUDENT_MMONEY) == 1);
+    
+    // testing all players start with 3 BQN
+    assert (getStudents(g, UNI_A, STUDENT_BQN) == 3);
+    assert (getStudents(g, UNI_B, STUDENT_BQN) == 3);
+    assert (getStudents(g, UNI_C, STUDENT_BQN) == 3);
+    
+    // retrain some students, test again.
+    throwDice;
+    getTurnNumber
+    
+    
+    //which player is retraining atm???
+    action BQNtoMMONEY {
+        actionCode = 7;
+        disciplineFrom = 2; //changing the 3 BQN
+        disciplineTo = 5; //retraining to MMONEY
+    };
+    
+    assert
+    
+    
+    //STILL WORKING ON THIS, SUBMITTING AS A SAVE COPY
 }
 
 void testGetExchangeRate (void) {
