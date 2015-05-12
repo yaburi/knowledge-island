@@ -342,7 +342,7 @@ int getStudents (Game g, int player, int discipline) {
     if (discipline == BPSs) {
         numStudents = player->BPSs;
     
-    }else if (discipline == THDs) {
+    } else if (discipline == THDs) {
         numStudents = player->THDs;
         
     } else if (discipline == BQNs) {
