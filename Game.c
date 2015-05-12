@@ -202,7 +202,9 @@ void makeAction (Game g, action a) {
 // the game starts in turn -1 (we call this state "Terra Nullis") and 
 // moves to turn 0 as soon as the first dice is thrown. 
 void throwDice (Game g, int diceScore) {
-
+    
+    g->currentTurn++; //progressing to next turn
+    
 }
 
 /* **** Functions which GET data about the game aka GETTERS **** */
