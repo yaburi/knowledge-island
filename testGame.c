@@ -269,7 +269,11 @@ void testIsLegalAction (void) {
 void testGetKPIpoints (void) {
     // return the number of KPI points the specified player currently has
     int getKPIpoints (Game g, int player);
-
+    //terra nullius
+    assert (getKPIpoints (g, UNI_A) == START_POINTS);
+    assert (getKPIpoints (g, UNI_B) == START_POINTS);
+    assert (getKPIpoints (g, UNI_C) == START_POINTS);
+    
 }
 
 void testGetARCs (void) {
