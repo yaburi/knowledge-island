@@ -336,7 +336,29 @@ int getPublications (Game g, int player) {
 // return the number of students of the specified discipline type 
 // the specified player currently has
 int getStudents (Game g, int player, int discipline) {
-
+    
+    int numStudents = 0;
+    
+    if (discipline == BPSs) {
+        numStudents = player->BPSs;
+    
+    }else if (discipline == THDs) {
+        numStudents = player->THDs;
+        
+    } else if (discipline == BQNs) {
+        numStudents = player->BQNs);
+        
+    } else if (discipline == MJs) {
+        numStudents = player->MJs;
+        
+    } else if (discipline == MTVs) {
+        numStudents = player->MMONEYs;
+        
+    } else if (discipline == MMONEYs) {
+        numStudents = player->MMONEYs;
+    }
+    
+    return numStudents;
 }
 
 // return how many students of discipline type disciplineFrom
