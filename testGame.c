@@ -14,6 +14,32 @@
                 STUDENT_MJ, STUDENT_BQN, STUDENT_THD, STUDENT_MJ, 
                 STUDENT_MMONEY, STUDENT_MTV, STUDENT_BQN, STUDENT_BPS}
 #define DEFAULT_DICE {9,10,8,12,6,5,3,11,3,11,4,6,4,7,9,2,8,10,5}
+//defines for getCampus
+#define VACANT_VERTEX 0
+//defines for getARCs
+#define VACANT_PATH 0
+//defines used for isLegal
+//isLegal: BUILD_CAMPUS
+#define STUDENT_BPS_FOR_CAMPUS 1
+#define STUDENT_BQN_FOR_CAMPUS 1
+#define STUDENT_MJ_FOR_CAMPUS 1
+#define STUDENT_MTV_FOR_CAMPUS 1
+//isLegal: BUILD_GO8
+#define MAX_GO8S 8
+#define STUDENT_MJ_FOR_GO8 2
+#define STUDENT_MMONEY_FOR_GO8 3
+#define CAMPUS_FOR_GO8 1
+//isLegal: OBTAIN_ARC
+#define STUDENT_BPS_FOR_ARC 1
+#define STUDENT_BQN_FOR_ARC 1
+//isLegal: START_SPINOFF
+#define STUDENT_MJ_FOR_SPINOFF 1
+#define STUDENT_MTV_FOR_SPINOFF 1
+#define STUDENT_MMONEY_FOR_SPINOFF 1
+//defines used for getKPIpoints
+#define START_POINTS 0
+//defines used for getARCs
+#define START_ARCS 0
 
 int disciplines[] = DEFAULT_DISCIPLINES;
 int dice[] = DEFAULT_DICE;
@@ -227,7 +253,7 @@ void testGetCampus (void) {
     // VACANT_VERTEX)
     int getCampus(Game g, path pathToVertex);
     
-    //terra nullius
+    //terra nullis
     assert (getCampus (g, "L") == VACANT_VERTEX);
     assert (getCampus (g, "R") == VACANT_VERTEX);
 
@@ -237,7 +263,7 @@ void testGetARC (void) {
     // the contents of the given edge (ie ARC code or vacent ARC)
     int getARC(Game g, path pathToEdge);
     
-    //terra nullius
+    //terra nullis
     assert (getARC (g, "L") == VACANT_PATH);
     assert (getARC (g, "R") == VACANT_PATH);
 }
@@ -276,18 +302,18 @@ void testIsLegalAction (void) {
     //check vertex is vacant
     assert (getCampus (g,"L") == VACANT_VERTEX);
     //check student has enough resources
-    assert (getStudents (g, UNI_A, STUDENT_BPS) != FALSE);
-    assert (getStudents (g, UNI_A, STUDENT_BQN) != FALSE);
-    assert (getStudents (g, UNI_A, STUDENT_MJ) != FALSE);
-    assert (getStudents (g, UNI_A, STUDENT_MTV) != FALSE);
+    assert (getStudents (g, UNI_A, STUDENT_BPS) >= STUDENT_BPS_FOR_CAMPUS);
+    assert (getStudents (g, UNI_A, STUDENT_BQN) >= STUDENT_BQN_FOR_CAMPUS);
+    assert (getStudents (g, UNI_A, STUDENT_MJ) >= STUDENT_MJ_FOR_CAMPUS);
+    assert (getStudents (g, UNI_A, STUDENT_MTV) >= STUDENT_MTV_FOR_CAMPUS);
     
     //checking isLegal works for BUILD_GO8
     //a = BUILD_GO8;
     //check no. of GO8s on board
-    numOfGO8A = getGO8s (g, UNI_A);
-    numOfGO8B = getGO8s (g, UNI_B);
-    numOfGO8C = getGO8s (g, UNI_C);
-    totalNumOfGO8 = numOfGO8A + numOfGO8B + numOfGO8C;
+    int numOfGO8A = getGO8s (g, UNI_A);
+    int numOfGO8B = getGO8s (g, UNI_B);
+    int numOfGO8C = getGO8s (g, UNI_C);
+    int totalNumOfGO8 = numOfGO8A + numOfGO8B + numOfGO8C;
     assert (totalNumOfGO8 <= MAX_GO8S);
     //check player has resources
     assert (getStudents (g, UNI_A, STUDENT_MJ) >= STUDENT_MJ_FOR_GO8);
@@ -332,7 +358,7 @@ void testIsLegalAction (void) {
 void testGetKPIpoints (void) {
     // return the number of KPI points the specified player currently has
     int getKPIpoints (Game g, int player);
-    //terra nullius
+    //terra nullis
     assert (getKPIpoints (g, UNI_A) == START_POINTS);
     assert (getKPIpoints (g, UNI_B) == START_POINTS);
     assert (getKPIpoints (g, UNI_C) == START_POINTS);
@@ -343,7 +369,7 @@ void testGetARCs (void) {
     // return the number of ARC grants the specified player currently has
     int getARCs (Game g, int player);
     
-    //terra nullius
+    //terra nullis
     assert (getARCs (g, UNI_A) == START_ARCS);
     assert (getARCS (g, UNI_B) == START_ARCS);
     assert (getARCs (g, UNI_C) == START_ARCS);
