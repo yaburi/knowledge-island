@@ -62,6 +62,38 @@
 #define NORMAL_EXCHANGE_RATE 3
 #define EXCHANGE_RATE_WITH_CENTRE 2
 
+// getCampus
+#define VACANT_VERTEX 0
+
+// getARCs
+#define VACANT_PATH 0
+
+//defines used for isLegal
+//isLegal: BUILD_CAMPUS
+#define STUDENT_BPS_FOR_CAMPUS 1
+#define STUDENT_BQN_FOR_CAMPUS 1
+#define STUDENT_MJ_FOR_CAMPUS 1
+#define STUDENT_MTV_FOR_CAMPUS 1
+//isLegal: BUILD_GO8
+#define MAX_GO8S 8
+#define STUDENT_MJ_FOR_GO8 2
+#define STUDENT_MMONEY_FOR_GO8 3
+#define CAMPUS_FOR_GO8 1
+//isLegal: OBTAIN_ARC
+#define STUDENT_BPS_FOR_ARC 1
+#define STUDENT_BQN_FOR_ARC 1
+//isLegal: START_SPINOFF
+#define STUDENT_MJ_FOR_SPINOFF 1
+#define STUDENT_MTV_FOR_SPINOFF 1
+#define STUDENT_MMONEY_FOR_SPINOFF 1
+
+// getKPIpoints
+#define START_POINTS 0
+
+// getARCs
+#define START_ARCS 0
+
+
 typedef struct _game { 
     
     // Map (*** not sure how to do yet)
@@ -304,7 +336,130 @@ int getARC(Game g, path pathToEdge) {
 // or OBTAIN_IP_PATENT (they can make the move START_SPINOFF)
 // you can assume that any pths passed in are NULL terminated strings.
 int isLegalAction (Game g, action a) {
+    
+    //initialising different variables i use
+    //assume isLegal is FALSE
+    int isLegal = FALSE;
+    //resources
+    int numOfBPS = 0;
+    int numOfBQN = 0;
+    int numOfMJ = 0;
+    int numOfMTV = 0;
+    int numOfMMONEY = 0;
 
+    int path = 0;
+    int campuses = 0;
+    int vertex = 0;
+    int numOfGO8A = 0;
+    int numOfGO8B = 0;
+    int numOFGO8C = 0;
+    int totalNumOfGO8 = 0;
+    
+    //all moves are not legal during terra nullis
+    if (getTurnNumber == TERRA_NULLIS) {
+        isLegal = FALSE;
+    } else {
+        //checking if different actions are legal
+        if (action = BUILD_CAMPUS) {
+            //check is vertex is vacant
+            int vertex = getCampus (g, pathToVertex);
+        
+            if (vertex == VACANT_VERTEX) {
+                //check not adjacent to another campus
+                //still figuring out how to check adj vertexes any help is appreciated
+                int adjVertexLeft = getCampus (g, pathToVertex+"L"(??));
+                int adjVertexRight = getCampus (g, pathToVertex + "R"(??));
+                int adjVertexBack = getCampus (g, pathToVertex +"B"(??));
+                
+                if (adjVertexLeft == VACANT_VERTEX && adjVertexRight == VACANT_VERTEX &&
+                    adjVertexBACK == VACANT_VERTEX) {
+                    //check resources
+                    numOfBPS = getStudents (g, playerID, STUDENT_BPS);
+                    numOfBQN = getStudents (g, playerID, STUDENT_BQN);
+                    numofMJ = getStudents (g, playerID, STUDENT_MJ);
+                    numofMTV = getStudents (g, playerIP, STUDENT_MTV);
+                
+                    if (numOfBPS >= STUDENT_BPS_FOR_CAMPUS && numOfBQN >= STUDENT_BQN_FOR_CAMPUS &&
+                        numOfMJ >= STUDENT_MJ_FOR_CAMPUS && numOfMTV >= STUDENT_MTV_FOR_CAMPUS){
+                        isLegal = TRUE;
+                    } else {
+                        isLegal = FALSE;
+                    }
+                }
+            } else {
+                isLegal = FALSE;
+            }
+        
+        } else if (action = BUILD_GO8) {
+            //check num of GO8s on board
+            numOfGO8A = getGO8s (g, UNI_A);
+            numOfGO8B = getGO8s (g, UNI_B);
+            numOfGO8C = getGO8s (g, UNI_C);
+            totalNumOfGO8 = numOfGO8A + numOfGO8B + numOfGO8C;
+            
+            if (totalNumOfGO8 < MAX_GO8S) {
+                //check player has campuses
+                campuses = getCampuses (g, playerID);
+                
+                if (campuses >= CAMPUS_FOR_GO8) {
+                    //check resources
+                    numOfMJ = getStudents (g, playerID, STUDENT_MJ);
+                    numOfMMONEY = getStudents (g, playerID, STUDENT_MMONEY);
+                    
+                    if (numOfMJ >= STUDENT_MJ_FOR_GO8 && numOfMMONEY >= STUDENT_MMONEY_FOR_GO8) {
+                        isLegal = TRUE;
+                    } else {
+                        isLegal = FALSE;
+                    }
+                
+                } else {
+                    isLegal = FALSE;
+                }
+            
+            } else {
+                isLegal = FALSE;
+            }
+        
+        } else if (action = OBTAIN_ARC) {
+            //check path is empty
+            path = getARC (g, pathToEdge);
+            
+            if (path = VACANT_PATH) {
+                //check resources
+                numOfBPS = getStudents (g, playerID, STUDENT_BPS);
+                numOfBQN = getStudents (g, playerID, STUDENT_BQN);
+                
+                if (numOfBPS >= STUDENT_BPS_FOR_ARC && numOfBQN >= STUDENT_BQN_FOR_ARC) {
+                    isLegal = TRUE;
+                } else {
+                    isLegal = FALSE;
+                }
+                
+            } else {
+                isLegal = FALSE;
+            }
+        
+        } else if (action = START_SPINOFF) {
+            numOfMJ = getStudents (g, playerID, STUDENT_MJ);
+            numOfMTV = getStudents (g, playerID, STUDENT_MTV);
+            numOfMMONEY = getStudents (g, playerID, STUDENT_MMONEY);
+        
+            if (numOfMJ >= STUDENT_MJ_FOR_SPINOFF && numOfMTV >= STUDENT_MTV_FOR_SPINOFF &&
+                numOfMMONEY >= STUDENT_MMONEY_FOR_SPINOFF) {
+                isLegal = TRUE;
+            } else {
+                isLegal = FALSE;
+            }
+        
+        } else if (action = OBTAIN_PUBLICATION) {
+            isLegal = FALSE;
+        
+        } else if (action = OBTAIN_IP_PATENT) {
+            isLegal = FALSE;
+        }
+    }
+
+    return isLegal;
 }
 
 // --- get data about a specified player ---
