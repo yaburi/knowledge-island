@@ -472,8 +472,12 @@ int isLegalAction (Game g, action a) {
             numOfStudentsToRetrain = getExchangeRate (g, playerID, disciplineFrom, disciplineTo);
             playerNumOfStudents = getStudents (g, playerID, disciplineFrom);
             
-            if (playerNumOfStudents >= numOfStudentsToRetrain) {
-                isLegal = TRUE;
+            if (disciplineFrom != STUDENT_THD) {
+                if (playerNumOfStudents >= numOfStudentsToRetrain) {
+                    isLegal = TRUE;
+                } else {
+                    isLegal = FALSE;
+                }
             } else {
                 isLegal = FALSE;
             }
