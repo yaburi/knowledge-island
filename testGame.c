@@ -298,17 +298,15 @@ void testIsLegalAction (void) {
     int isLegalAction (Game g, action a);
     
     //checking isLegal works for BUILD_CAMPUS
-    //a = BUILD_CAMPUS;
     //check vertex is vacant
     assert (getCampus (g,"L") == VACANT_VERTEX);
     //check student has enough resources
-    assert (getStudents (g, UNI_A, STUDENT_BPS) >= STUDENT_BPS_FOR_CAMPUS);
-    assert (getStudents (g, UNI_A, STUDENT_BQN) >= STUDENT_BQN_FOR_CAMPUS);
-    assert (getStudents (g, UNI_A, STUDENT_MJ) >= STUDENT_MJ_FOR_CAMPUS);
-    assert (getStudents (g, UNI_A, STUDENT_MTV) >= STUDENT_MTV_FOR_CAMPUS);
+    assert (getStudents (g, playerID, STUDENT_BPS) >= STUDENT_BPS_FOR_CAMPUS);
+    assert (getStudents (g, playerID, STUDENT_BQN) >= STUDENT_BQN_FOR_CAMPUS);
+    assert (getStudents (g, playerID, STUDENT_MJ) >= STUDENT_MJ_FOR_CAMPUS);
+    assert (getStudents (g, playerID, STUDENT_MTV) >= STUDENT_MTV_FOR_CAMPUS);
     
     //checking isLegal works for BUILD_GO8
-    //a = BUILD_GO8;
     //check no. of GO8s on board
     int numOfGO8A = getGO8s (g, UNI_A);
     int numOfGO8B = getGO8s (g, UNI_B);
@@ -316,42 +314,41 @@ void testIsLegalAction (void) {
     int totalNumOfGO8 = numOfGO8A + numOfGO8B + numOfGO8C;
     assert (totalNumOfGO8 <= MAX_GO8S);
     //check player has resources
-    assert (getStudents (g, UNI_A, STUDENT_MJ) >= STUDENT_MJ_FOR_GO8);
-    assert (getStudents (g, UNI_A, STUDENT_MMONEY) >= STUDENT_MMONEY_FOR_GO8);
-    assert (getCampuses (g, UNI_A) >= CAMPUS_FOR_GO8);
+    assert (getStudents (g, playerID, STUDENT_MJ) >= STUDENT_MJ_FOR_GO8);
+    assert (getStudents (g, playerID, STUDENT_MMONEY) >= STUDENT_MMONEY_FOR_GO8);
+    assert (getCampuses (g, playerID) >= CAMPUS_FOR_GO8);
     
     //checking isLegal works for OBTAIN_ARC
-    //a = OBTAIN_ARC;
     //check path is vacant
     assert (getARC (g,"L") == VACANT_PATH);
     //check resources
-    assert (getStudents (g, UNI_A, STUDENT_BPS) >= STUDENT_BPS_FOR_ARC);
-    assert (getStudents (g, UNI_A, STUDENT_BQN) >= STUDENT_BQN_FOR_ARC);
+    assert (getStudents (g, playerID, STUDENT_BPS) >= STUDENT_BPS_FOR_ARC);
+    assert (getStudents (g, playerID, STUDENT_BQN) >= STUDENT_BQN_FOR_ARC);
     
     //checking isLegal works for START_SPINOFF
-    //a = START_SPINOFF;
-    //note START_SPINOFF is not legal action with makeAction
+    //note START_SPINOFF is not legal action with makeAction, but is legal with islegalaction
     assert (makeAction (g, START_SPINOFF) == FALSE);
+    assert (isLegalAction (g, START_SPINOFF) == TRUE);
     //check resources
-    assert (getStudents (g, UNI_A, STUDENT_MJ) >= STUDENT_MJ_FOR_SPINOFF);
-    assert (getStudents (g, UNI_A, STUDENT_MTV) >= STUDENT_MTV_FOR_SPINOFF);
-    assert (getStudents (g, UNI_A, STUDENT_MMONEY) >= STUDENT_MMONEY_FOR_SPINOFF);
+    assert (getStudents (g, playerID, STUDENT_MJ) >= STUDENT_MJ_FOR_SPINOFF);
+    assert (getStudents (g, playerID, STUDENT_MTV) >= STUDENT_MTV_FOR_SPINOFF);
+    assert (getStudents (g, playerID, STUDENT_MMONEY) >= STUDENT_MMONEY_FOR_SPINOFF);
     
     //checking isLegal works for OBTAIN_PUBLICATION
-    //a = OBTAIN_PUBLICATION;
     //check start spinoff was right
     //check player is not trying to obtain publications but is being given after spinoff
-    assert (makeAction (g, OBTAIN_PUBLICATION) == FALSE);
+    assert (isLegalAction (g, OBTAIN_PUBLICATION) == FALSE);
     
     //checking isLegal works for OBTAIN_IP_PATENT
-    assert (makeAction (g, OBTAIN_IP_PATENT) == FALSE);
+    assert (isLegalAction (g, OBTAIN_IP_PATENT) == FALSE);
     
     //checking isLegal works for RETRAIN_STUDENTS
-    //a = RETRAIN_STUDENTS;
     //check student is not ThD
     assert (studentToRetrain != STUDENT_THD);
     //check how many students needed
-    numOfStudentsToRetrain = getExchangeRate (g, UNI_A, disciplineFrom, disciplineTo);
+    numOfStudentsToRetrain = getExchangeRate (g, playerID, disciplineFrom, disciplineTo);
+    playerNumofStudents = getStudents (g, playerID, disciplineFrom);
+    assert (playerNumofStudents >= numOfStudentsToRetrain);
 }
 
 // Gets data about a specified player
