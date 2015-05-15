@@ -22,7 +22,7 @@ Functions (we need to split these up amongst ourselves):
     newGame
     makeAction
 
-    isLegalAction
+    isLegalAction ✔︎
 
 - Medium
     throwDice ✔︎
@@ -36,8 +36,8 @@ Functions (we need to split these up amongst ourselves):
 - Easy
     disposeGame ✔️
 
-    getMostARCs 
-    getMostPublications
+    getMostARCs ✔︎
+    getMostPublications ✔︎
     getTurnNumber ✔️
     getWhoseTurn ✔️
     getKPIpoints ✔︎
