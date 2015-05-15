@@ -192,6 +192,9 @@ typedef struct _region {
 //   int disciplines[] = DEFAULT_DISCIPLINES;
 //   int dice[] = DEFAULT_DICE;
 //   Game g = newGame (disciplines, dice);
+
+static int ownerOfARC (Game g, int ARCcode);
+
 Game newGame (int discipline[], int dice[]) {
 
     Game g = malloc (sizeof (Game));
@@ -269,15 +272,38 @@ int getDiceValue (Game g, int regionID) {
 // has started.  
 int getMostARCs (Game g) {
     
-    int prestigeUni = ...;
+    int prestigeUniARCs = NO_ONE;
+    int i = 1;
+    int mostARCs =0;
     
-    return prestigeUni;
+    while (i < 4) {
+        if (players[i].ARCs > mostARCs) {
+            prestigeUniARCs = i;
+            mostARCs = players[i].ARCs;
+        }
+        i++;
+    }
+    
+    return prestigeUniARCs;
 }
 
 // which university currently has the prestige award for the most pubs?
 // this is NO_ONE until the first publication is made.
 int getMostPublications (Game g) {
-
+    
+    int prestigeUniPub = NO_ONE;
+    int i = 1;
+    int mostPublications =0;
+    
+    while (i < 4) {
+        if (players[i].publications > mostPublications) {
+            prestigeUniPub = i;
+            mostPublications = players[i].publications;
+        }
+        i++;
+    }
+    
+    return prestigeUniPub;
 }
 
 // return the current turn number of the game -1,0,1, ..
@@ -317,7 +343,7 @@ int getCampus(Game g, path pathToVertex) {
 
 // the contents of the given edge (ie ARC code or vacent ARC)
 int getARC(Game g, path pathToEdge) {
-
+    
 }
 
 // returns TRUE if it is legal for the current
@@ -362,17 +388,26 @@ int isLegalAction (Game g, action a) {
     int vertex = 0;
     int numOfGO8A = 0;
     int numOfGO8B = 0;
-    int numOFGO8C = 0;
+    int numOfGO8C = 0;
     int totalNumOfGO8 = 0;
     int numOfStudentsToRetrain = 0;
     int playerNumOfStudents = 0;
+    int ownerLeft = 0;
+    int ownerRight = 0;
+    int ownerBack = 0;
+    int adjVertexLeft = 0;
+    int adjVertexRight = 0;
+    int adjVertexBack = 0;
+    int adjPathLeft = 0;
+    int adjPathRight = 0;
+    int adjPathBack = 0;
     
     //all moves are not legal during terra nullis
     if (getTurnNumber == TERRA_NULLIS) {
         isLegal = FALSE;
     } else {
         //checking if different actions are legal
-        if (action = BUILD_CAMPUS) {
+        if (a = BUILD_CAMPUS) {
             //check is vertex is vacant
             int vertex = getCampus (g, pathToVertex);
         
@@ -384,25 +419,41 @@ int isLegalAction (Game g, action a) {
                 int adjVertexBack = getCampus (g, pathToVertex +"B"(??));
                 
                 if (adjVertexLeft == VACANT_VERTEX && adjVertexRight == VACANT_VERTEX &&
-                    adjVertexBACK == VACANT_VERTEX) {
-                    //check resources
-                    numOfBPS = getStudents (g, playerID, STUDENT_BPS);
-                    numOfBQN = getStudents (g, playerID, STUDENT_BQN);
-                    numofMJ = getStudents (g, playerID, STUDENT_MJ);
-                    numofMTV = getStudents (g, playerIP, STUDENT_MTV);
-                
-                    if (numOfBPS >= STUDENT_BPS_FOR_CAMPUS && numOfBQN >= STUDENT_BQN_FOR_CAMPUS &&
-                        numOfMJ >= STUDENT_MJ_FOR_CAMPUS && numOfMTV >= STUDENT_MTV_FOR_CAMPUS){
-                        isLegal = TRUE;
+                    adjVertexBack == VACANT_VERTEX) {
+                    //check there is an arc connecting to the vertex
+                    adjPathLeft = getARC (g, pathToEdge + "L");
+                    adjPathRight = getARC (g, pathToEdge + "R");
+                    adjPathBack = getARC (g, pathToEdge + "B");
+                    
+                    ownerLeft = ownerOfARC (g, adjPathLeft);
+                    ownerRight = ownerOfARC (g, adjPathRight);
+                    ownerBack = ownerOfARC (g, adjPathBack);
+                    
+                    if (ownerLeft == playerID || ownerRight == playerID || ownerBack == playerID) {
+                        //check resources
+                        numOfBPS = getStudents (g, playerID, STUDENT_BPS);
+                        numOfBQN = getStudents (g, playerID, STUDENT_BQN);
+                        numofMJ = getStudents (g, playerID, STUDENT_MJ);
+                        numofMTV = getStudents (g, playerIP, STUDENT_MTV);
+                        
+                        if (numOfBPS >= STUDENT_BPS_FOR_CAMPUS && numOfBQN >= STUDENT_BQN_FOR_CAMPUS &&
+                            numOfMJ >= STUDENT_MJ_FOR_CAMPUS && numOfMTV >= STUDENT_MTV_FOR_CAMPUS){
+                            isLegal = TRUE;
+                        } else {
+                            isLegal = FALSE;
+                        }
+                        
                     } else {
                         isLegal = FALSE;
                     }
+                } else {
+                    isLegal = FALSE;
                 }
             } else {
                 isLegal = FALSE;
             }
         
-        } else if (action = BUILD_GO8) {
+        } else if (a = BUILD_GO8) {
             //check num of GO8s on board
             numOfGO8A = getGO8s (g, UNI_A);
             numOfGO8B = getGO8s (g, UNI_B);
@@ -432,26 +483,40 @@ int isLegalAction (Game g, action a) {
                 isLegal = FALSE;
             }
         
-        } else if (action = OBTAIN_ARC) {
+        } else if (a = OBTAIN_ARC) {
             //check path is empty
             path = getARC (g, pathToEdge);
             
             if (path = VACANT_PATH) {
-                //check resources
-                numOfBPS = getStudents (g, playerID, STUDENT_BPS);
-                numOfBQN = getStudents (g, playerID, STUDENT_BQN);
+                //check adj paths (ARCs must be connected to ARC by same uni or campus)
+                adjPathLeft = getARC (g, pathToEdge + "L");
+                adjPathRight = getARC (g, pathToEdge + "R");
+                adjPathBack = getARC (g, pathToEdge + "B");
+                adjCampus = getCampus (g, pathToVertex);
                 
-                if (numOfBPS >= STUDENT_BPS_FOR_ARC && numOfBQN >= STUDENT_BQN_FOR_ARC) {
-                    isLegal = TRUE;
+                ownerLeft = ownerOfARC (g, adjPathLeft);
+                ownerRight = ownerOfARC (g, adjPathRight);
+                ownerBack = ownerOfARC (g, adjPathBack);
+                    
+                if (ownerLeft == playerID || ownerRight == playerID || ownerBack == playerID) {
+                    //check resources
+                    numOfBPS = getStudents (g, playerID, STUDENT_BPS);
+                    numOfBQN = getStudents (g, playerID, STUDENT_BQN);
+                
+                    if (numOfBPS >= STUDENT_BPS_FOR_ARC && numOfBQN >= STUDENT_BQN_FOR_ARC) {
+                        isLegal = TRUE;
+                    } else {
+                        isLegal = FALSE;
+                    }
                 } else {
                     isLegal = FALSE;
                 }
-                
             } else {
                 isLegal = FALSE;
             }
         
-        } else if (action = START_SPINOFF) {
+        } else if (a = START_SPINOFF) {
+            //check resources
             numOfMJ = getStudents (g, playerID, STUDENT_MJ);
             numOfMTV = getStudents (g, playerID, STUDENT_MTV);
             numOfMMONEY = getStudents (g, playerID, STUDENT_MMONEY);
@@ -463,12 +528,15 @@ int isLegalAction (Game g, action a) {
                 isLegal = FALSE;
             }
         
-        } else if (action = OBTAIN_PUBLICATION) {
+        } else if (a = OBTAIN_PUBLICATION) {
+            //OBTAIN_PUBLICATION is always illegal move for isLegal, (however is legal for makeAction)
             isLegal = FALSE;
         
-        } else if (action = OBTAIN_IP_PATENT) {
+        } else if (a = OBTAIN_IP_PATENT) {
+            //OBTAIN_PUBLICATION is always illegal move
             isLegal = FALSE;
-        } else if (action = RETRAIN_STUDENTS) {
+            
+        } else if (a = RETRAIN_STUDENTS) {
             numOfStudentsToRetrain = getExchangeRate (g, playerID, disciplineFrom, disciplineTo);
             playerNumOfStudents = getStudents (g, playerID, disciplineFrom);
             
@@ -487,10 +555,28 @@ int isLegalAction (Game g, action a) {
     return isLegal;
 }
 
+static int ownerOfARC (Game g, int ARCcode) {
+    int ARCowner = 0;
+    
+    if (ARCcode == ARC_A) {
+        ARCowner = UNI_A;
+    } else if (ARCcode == ARC_B) {
+        ARCowner = UNI_B;
+    } else if (ARCcode == ARC_C) {
+        ARCowner = UNI_C;
+    } else {
+        ARCowner = NO_ONE;
+    }
+    
+    return ARCowner;
+}
+
 // --- get data about a specified player ---
 
 // return the number of KPI points the specified player currently has
 int getKPIpoints (Game g, int player) {
+    
+    int KPIpoints = player->KPIpoints;
 
     return KPIpoints;
 }
