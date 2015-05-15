@@ -62,6 +62,16 @@
 #define NORMAL_EXCHANGE_RATE 3
 #define EXCHANGE_RATE_WITH_CENTRE 2
 
+// action codes
+#define PASS 0
+#define BUILD_CAMPUS 1
+#define BUILD_GO8 2
+#define OBTAIN_ARC 3
+#define START_SPINOFF 4
+#define OBTAIN_PUBLICATION 5
+#define OBTAIN_IP_PATENT 6
+#define RETRAIN_STUDENTS 7
+
 // getCampus
 #define VACANT_VERTEX 0
 
@@ -354,6 +364,8 @@ int isLegalAction (Game g, action a) {
     int numOfGO8B = 0;
     int numOFGO8C = 0;
     int totalNumOfGO8 = 0;
+    int numOfStudentsToRetrain = 0;
+    int playerNumOfStudents = 0;
     
     //all moves are not legal during terra nullis
     if (getTurnNumber == TERRA_NULLIS) {
@@ -367,7 +379,7 @@ int isLegalAction (Game g, action a) {
             if (vertex == VACANT_VERTEX) {
                 //check not adjacent to another campus
                 //still figuring out how to check adj vertexes any help is appreciated
-                int adjVertexLeft = getCampus (g, pathToVertex+"L"(??));
+                int adjVertexLeft = getCampus (g, pathToVertex + "L"(??));
                 int adjVertexRight = getCampus (g, pathToVertex + "R"(??));
                 int adjVertexBack = getCampus (g, pathToVertex +"B"(??));
                 
@@ -456,6 +468,15 @@ int isLegalAction (Game g, action a) {
         
         } else if (action = OBTAIN_IP_PATENT) {
             isLegal = FALSE;
+        } else if (action = RETRAIN_STUDENTS) {
+            numOfStudentsToRetrain = getExchangeRate (g, playerID, disciplineFrom, disciplineTo);
+            playerNumOfStudents = getStudents (g, playerID, disciplineFrom);
+            
+            if (playerNumOfStudents >= numOfStudentsToRetrain) {
+                isLegal = TRUE;
+            } else {
+                isLegal = FALSE;
+            }
         }
     }
 
