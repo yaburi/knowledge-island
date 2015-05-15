@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
+#include <time.h>
 #include "Game.h"
 
 // Default defines
@@ -120,6 +121,7 @@ typedef struct _game {
     int mostARCs;       // tracks who currently has the most ARCs
     int mostPublications; // tracks who currently has the most pubs
     int numGO8;         // makes sure GO8's doesn't go past 8
+    int currentDice     // tracks the values of the dice roll
 
 } game;
 
@@ -141,8 +143,32 @@ typedef struct _player {
     int MTVs;
     int MMONEYs;
 
+    // Positioning
+    int currentX;
+    int currentY;
+    int previousX;
+    int previousY;
+
 } player;
 
+
+typedef struct _campus {
+
+    int campusOwner;
+    int campusLocation; // based on coordinates 
+    int isGO8;
+
+} campus;
+
+typedef struct _arcEdge{
+
+    int edgeOwner;
+    int edgeLocation;   // based on edge number on the hexagon
+                        // eg. edge 0 is the top edge.
+
+} _arcEdge;
+
+/*
 typedef struct _vertex {
     
     // Adjacent edges
@@ -165,7 +191,7 @@ typedef struct _region {
     int diceNumber;
     int studentType;
 } region;
-
+*/
 
 /* **** Functions which change the game aka SETTERS **** */
 // make a new game, given the disciplines produced by each
@@ -223,12 +249,17 @@ Game newGame (int discipline[], int dice[]) {
 
         i++;
     }
+
+
+
+    return g;
 }
 
 // free all the memory malloced for the game
 void disposeGame (Game g) {
     assert (g != NULL);
     free (g);
+    *g = NULL;
 }
 
 // make the specified action for the current player and update the 
@@ -236,6 +267,24 @@ void disposeGame (Game g) {
 // The function may assume that the action requested is legal.
 // START_SPINOFF is not a legal action here
 void makeAction (Game g, action a) {
+    if (a.actionCode = PASS) {
+
+    } else if (a.actionCode = BUILD_CAMPUS) {
+
+    } else if (a.actionCode = BUILD_G08) {
+
+    } else if (a.actionCode = OBTAIN_ARC) {
+
+    } else if (a.actionCode = START_SPINOFF) {
+
+    } else if (a.actionCode = OBTAIN_PUBLICATION) {
+
+    } else if (a.actionCode = OBTAIN_IP_PATENT) {
+
+    } else if (a.actionCode = RETRAIN_STUDENTS) {
+        disciplineFrom = ;
+        disciplineTo = ;
+    }
 
 }
 
@@ -245,8 +294,17 @@ void makeAction (Game g, action a) {
 // moves to turn 0 as soon as the first dice is thrown. 
 void throwDice (Game g, int diceScore) {
     
-    g->currentTurn++; //progressing to next turn
-    
+    double dice1 = 0;   // initialises the two dice
+    double dice2 = 0;
+    int diceScore = 0;
+    srand(time(0));             // seeds the random value based on time
+    dice1 = (rand() % 6) + 1;   // rolls dice 1
+    dice2 = (rand() % 6) + 1;   // rolls dice 2
+
+    diceScore = dice1 + dice2;  // adds the value of dice 1 and 2
+    g->currentDice = diceScore; // assigns this score to the game struct
+    g->currentTurn++;           // progressing to next turn
+
 }
 
 /* **** Functions which GET data about the game aka GETTERS **** */
@@ -269,9 +327,9 @@ int getDiceValue (Game g, int regionID) {
 // has started.  
 int getMostARCs (Game g) {
     
-    int prestigeUni = ...;
+    int prestigeARCs = ;
     
-    return prestigeUni;
+    return prestigeARCs;
 }
 
 // which university currently has the prestige award for the most pubs?
@@ -284,7 +342,7 @@ int getMostPublications (Game g) {
 int getTurnNumber (Game g) {
     
     //this assumes that there is a counter every time a dice is thrown
-    // or a player passes, and that this counter is given to struct game.
+    // or a player passes, and that this counter is given to struct game
     int turnNum = g->currentTurn;
     
     return turnNum;
@@ -491,6 +549,8 @@ int isLegalAction (Game g, action a) {
 
 // return the number of KPI points the specified player currently has
 int getKPIpoints (Game g, int player) {
+
+    int numOfKPI = player->KPIs;
 
     return KPIpoints;
 }

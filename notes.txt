@@ -25,7 +25,7 @@ Functions (we need to split these up amongst ourselves):
     isLegalAction
 
 - Medium
-    throwDice
+    throwDice ✔︎
 
     getDiscipline
     getDiceValue
@@ -40,7 +40,7 @@ Functions (we need to split these up amongst ourselves):
     getMostPublications
     getTurnNumber ✔️
     getWhoseTurn ✔️
-    getKPIpoints
+    getKPIpoints ✔︎
     getARCs ✔️
     getCampuses ✔️
     getGO8s ✔️
