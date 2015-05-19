@@ -12,12 +12,18 @@
  
 #include "Game.h"
 #include "mechanicalTurk.h"
+
  
 action decideAction (Game g) {
  
-   
    action nextAction;
-   nextAction.actionCode = PASS;
+    
+    if (getStudents(Game g, getWhoseTurn(Game g), STUDENT_MJ) >= 1 && getStudents(game g, getWhoseTurn(Game g), STUDENT_MTV) >= 1 && getStudents(Game g, getWhoseTurn(Game g), STUDENT_MMONEY) >= 1) {
+        nextAction = 4; //start spin off
+    } else {
+        nextAction.actionCode = PASS;
+    }
+    
    
    return nextAction;
 }
