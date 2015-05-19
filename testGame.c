@@ -404,6 +404,8 @@ void testGetPublications (void) {
     assert (getPublications(g, players [1]) == 0);
     assert (getPublications(g, players [2]) == 0);
     assert (getPublications(g, players [3]) == 0);
+    
+    
 }
 
 void testGetStudents (void) {
@@ -412,12 +414,12 @@ void testGetStudents (void) {
     int getStudents (Game g, int player, int discipline);
 
     
-    // testing all players(0,1,2) will all start with 3 problem solving students
+    // testing all players(0,1,2) will start with 3 problem solving students
     assert (getStudents(g, UNI_A, STUDENT_BPS) == 3);
     assert (getStudents(g, UNI_B, STUDENT_BPS) == 3);
     assert (getStudents(g, UNI_C, STUDENT_BPS) == 3);
     
-    // testing all players will all start with 1 MTV
+    // testing all players will start with 1 MTV
     assert (getStudents(g, UNI_A, STUDENT_MTV) == 1);
     assert (getStudents(g, UNI_B, STUDENT_MTV) == 1);
     assert (getStudents(g, UNI_C, STUDENT_MTV) == 1);

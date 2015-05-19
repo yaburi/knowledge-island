@@ -254,8 +254,6 @@ Game newGame (int discipline[], int dice[]) {
         i++;
     }
 
-
-
     return g;
 }
 
@@ -271,6 +269,7 @@ void disposeGame (Game g) {
 // The function may assume that the action requested is legal.
 // START_SPINOFF is not a legal action here
 void makeAction (Game g, action a) {
+    
     if (a.actionCode = PASS) {
 
     } else if (a.actionCode = BUILD_CAMPUS) {
@@ -297,7 +296,7 @@ void makeAction (Game g, action a) {
 // the game starts in turn -1 (we call this state "Terra Nullis") and 
 // moves to turn 0 as soon as the first dice is thrown. 
 void throwDice (Game g, int diceScore) {
-    
+
     double dice1 = 0;   // initialises the two dice
     double dice2 = 0;
     int diceScore = 0;
@@ -309,6 +308,9 @@ void throwDice (Game g, int diceScore) {
     g->currentDice = diceScore; // assigns this score to the game struct
     g->currentTurn++;           // progressing to next turn
 
+    assert (diceScore != TERRA_NULLIS);
+    g->currentTurn++; //progressing to next turn
+    
 }
 
 /* **** Functions which GET data about the game aka GETTERS **** */
@@ -317,13 +319,15 @@ void throwDice (Game g, int diceScore) {
 // regionID is the index of the region in the newGame arrays (above) 
 // see discipline codes above
 int getDiscipline (Game g, int regionID) {
-
+    
+    
 }
 
 // what dice value produces students in the specified region?
 // 2..12
 int getDiceValue (Game g, int regionID) {
-
+    
+    
 }
 
 // which university currently has the prestige award for the most ARCs?
@@ -344,6 +348,9 @@ int getMostARCs (Game g) {
     }
     
     return prestigeUniARCs;
+    int prestigeARCs = game->mostARCs;
+    
+    return prestigeARCs;
 }
 
 // which university currently has the prestige award for the most pubs?
@@ -363,6 +370,9 @@ int getMostPublications (Game g) {
     }
     
     return prestigeUniPub;
+    int prestigePUBs = game->mostPublications;
+    
+    return prestigePUBs;
 }
 
 // return the current turn number of the game -1,0,1, ..
@@ -744,6 +754,38 @@ int getStudents (Game g, int player, int discipline) {
 // on what retraining centers, if any, they have a campus at.
 int getExchangeRate (Game g, int player, 
                      int disciplineFrom, int disciplineTo) {
+    
+    int exchangeRate;
+    
+    assert (disciplineFrom != STUDENT_THD);
+    
+    if (isNear(player, disciplineFrom) == TRUE) {
+        exchangeRate = 2;
+    } else {
+        exchangeRate = 3;
+    }
+    
+    return exchangeRate;
+}
 
+//function will return yes (0) or no (1) as to whether the player has a campus near a training centre of the required discipline type.
+int isNear (int player, int disciplineFrom, game g) {
+    
+    int isNearCentre;
+    
+    if (disciplineFrom == STUDENT_MTV) {
+        
+    } else if (disciplineFrom == STUDENT_MMONEY) {
+        
+    } else if (disciplineFrom == STUDENT_BQN) {
+        
+    } else if (disciplineFrom == STUDENT_MJ) {
+        
+    } else if (disciplineFrom == STUDENT_BPS) {
+        
+    }
+    
+    
+    return isNearCentre;
 }
 
