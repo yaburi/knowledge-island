@@ -18,6 +18,7 @@ action decideAction (Game g) {
  
    action nextAction;
     
+<<<<<<< Updated upstream
     
     if (getStudents(g, getWhoseTurn(g), STUDENT_MMONEY) >= 1 &&
         getStudents(g, getWhoseTurn(g), STUDENT_BQN) >= 1) {
@@ -31,6 +32,13 @@ action decideAction (Game g) {
         getStudents(g, getWhoseTurn(Game g), STUDENT_MMONEY) >= 1) {
         nextAction.actionCode = START_SPINOFF; //start spin off
     } else if {
+=======
+    if (getStudents(Game g, getWhoseTurn(Game g), STUDENT_MJ) >= 1 && 
+        getStudents(game g, getWhoseTurn(Game g), STUDENT_MTV) >= 1 && 
+        getStudents(Game g, getWhoseTurn(Game g), STUDENT_MMONEY) >= 1) {
+        nextAction = START_SPINOFF; //start spin off
+    } else {
+>>>>>>> Stashed changes
         nextAction.actionCode = PASS;
     }
     

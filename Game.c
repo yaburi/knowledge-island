@@ -285,43 +285,22 @@ void disposeGame (Game g) {
 // START_SPINOFF is not a legal action here
 void makeAction (Game g, action a) {
 
-    
     if (a.actionCode = PASS) {
-
+        throwDice(g, diceScore);
     } else if (a.actionCode = BUILD_CAMPUS) {
-
+        buildCampus(g, //last destination)
     } else if (a.actionCode = BUILD_G08) {
-
+        buildGO8(g, //last destination)
     } else if (a.actionCode = OBTAIN_ARC) {
-
-    } else if (a.actionCode = START_SPINOFF) {
-
+        buildARC(g, //second last destination, //last destination)
     } else if (a.actionCode = OBTAIN_PUBLICATION) {
-
+        makePublication(g);
     } else if (a.actionCode = OBTAIN_IP_PATENT) {
-
+        makePatent(g);
     } else if (a.actionCode = RETRAIN_STUDENTS) {
-        disciplineFrom = ;
-        disciplineTo = ;
-
-        
-        if (a.actionCode = PASS) {
-            throwDice(g, diceScore);
-        } else if (a.actionCode = BUILD_CAMPUS) {
-            buildCampus(g, //last destination)
-        } else if (a.actionCode = BUILD_G08) {
-            buildGO8(g, //last destination)
-        } else if (a.actionCode = OBTAIN_ARC) {
-            buildARC(g, //second last destination, //last destination)
-        } else if (a.actionCode = OBTAIN_PUBLICATION) {
-            makePublication(g);
-        } else if (a.actionCode = OBTAIN_IP_PATENT) {
-            makePatent(g);
-        } else if (a.actionCode = RETRAIN_STUDENTS) {
-            getExchangeRate()
-        }
-
+        getExchangeRate()
     }
+
 }
 
 // advance the game to the next turn, 
