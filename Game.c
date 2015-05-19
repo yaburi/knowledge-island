@@ -58,10 +58,20 @@
 
 // Starting campuses
 #define INITIAL_CAMPUSES 2
+#define UNI_A_START_CAMPUS_1_X 0 
+#define UNI_A_START_CAMPUS_1_Y 0 
+#define UNI_A_START_CAMPUS_2_X 0 
+#define UNI_A_START_CAMPUS_2_Y 0 
+#define UNI_B_START_CAMPUS_1_X 0 
+#define UNI_B_START_CAMPUS_1_X 0 
+
 
 // Exchange rates
 #define NORMAL_EXCHANGE_RATE 3
 #define EXCHANGE_RATE_WITH_CENTRE 2
+
+//Exchange rates with centres
+#define EXCHANGE_WITH_CENTRE_MTV 1
 
 // action codes
 #define PASS 0
@@ -121,7 +131,7 @@ typedef struct _game {
     int mostARCs;       // tracks who currently has the most ARCs
     int mostPublications; // tracks who currently has the most pubs
     int numGO8;         // makes sure GO8's doesn't go past 8
-    int currentDice     // tracks the values of the dice roll
+    int currentDice;     // tracks the values of the dice roll
 
 } game;
 
@@ -134,6 +144,7 @@ typedef struct _player {
     int GO8Campuses;
     int patents;
     int publications;
+    int exchangeCentre;
 
     // Disciplines each player has
     int THDs;
@@ -144,17 +155,16 @@ typedef struct _player {
     int MMONEYs;
 
     // Positioning
-    int currentX;
-    int currentY;
-    int previousX;
-    int previousY;
+    int previousLocation;
+    int currentLocation;
+    int newLocation;
 
 } player;
 
 
 typedef struct _campus {
 
-    int campusOwner;
+    int content;
     int campusLocation; // based on coordinates 
     int isGO8;
 
@@ -254,6 +264,11 @@ Game newGame (int discipline[], int dice[]) {
         i++;
     }
 
+
+
+    // Set up initial locations of the UNIs
+
+
     return g;
 }
 
@@ -269,6 +284,7 @@ void disposeGame (Game g) {
 // The function may assume that the action requested is legal.
 // START_SPINOFF is not a legal action here
 void makeAction (Game g, action a) {
+
     
     if (a.actionCode = PASS) {
 
@@ -287,8 +303,25 @@ void makeAction (Game g, action a) {
     } else if (a.actionCode = RETRAIN_STUDENTS) {
         disciplineFrom = ;
         disciplineTo = ;
-    }
 
+        
+        if (a.actionCode = PASS) {
+            throwDice(g, diceScore);
+        } else if (a.actionCode = BUILD_CAMPUS) {
+            buildCampus(g, //last destination)
+        } else if (a.actionCode = BUILD_G08) {
+            buildGO8(g, //last destination)
+        } else if (a.actionCode = OBTAIN_ARC) {
+            buildARC(g, //second last destination, //last destination)
+        } else if (a.actionCode = OBTAIN_PUBLICATION) {
+            makePublication(g);
+        } else if (a.actionCode = OBTAIN_IP_PATENT) {
+            makePatent(g);
+        } else if (a.actionCode = RETRAIN_STUDENTS) {
+            getExchangeRate()
+        }
+
+    }
 }
 
 // advance the game to the next turn, 
@@ -326,8 +359,15 @@ int getDiscipline (Game g, int regionID) {
 // what dice value produces students in the specified region?
 // 2..12
 int getDiceValue (Game g, int regionID) {
+
     
     
+
+
+    int diceValue = 
+
+    return diceValue;
+
 }
 
 // which university currently has the prestige award for the most ARCs?
@@ -506,7 +546,7 @@ int isLegalAction (Game g, action a) {
                         numOfBPS = getStudents (g, playerID, STUDENT_BPS);
                         numOfBQN = getStudents (g, playerID, STUDENT_BQN);
                         numofMJ = getStudents (g, playerID, STUDENT_MJ);
-                        numofMTV = getStudents (g, playerIP, STUDENT_MTV);
+                        numofMTV = getStudents (g, playerID, STUDENT_MTV);
                         
                         if (numOfBPS >= STUDENT_BPS_FOR_CAMPUS && numOfBQN >= STUDENT_BQN_FOR_CAMPUS &&
                             numOfMJ >= STUDENT_MJ_FOR_CAMPUS && numOfMTV >= STUDENT_MTV_FOR_CAMPUS){
@@ -787,5 +827,153 @@ int isNear (int player, int disciplineFrom, game g) {
     
     
     return isNearCentre;
+
+
+    return exchangeRate;
 }
 
+
+// Helper functions
+static void spendStudents(Game g, int discipline, int amount) {
+    int currentPlayer = getWhoseTurn(g);
+    g->players[currentPlayer].students[discipline] -= amount;
+}
+
+
+static void incrementKPI(Game g, int player, int amount) {
+    g->players[player].kpi += amount;
+}
+
+
+static void allocateStudents(Game g, int player, int discipline, int amount) {
+    g->players[player].students[discipline] += amount;
+}
+
+// Build functions
+static void buildCampus(Game g, int vertex) {
+
+    // Spend students
+    spendStudents(g, STUDENT_BPS, 1);
+    spendStudents(g, STUDENT_BQN, 1);
+    spendStudents(g, STUDENT_MJ, 1);
+    spendStudents(g, STUDENT_MTV, 1);
+
+    // Create the new contents of the vertex
+    int content = VACANT_VERTEX;
+    int currentPlayer = getWhoseTurn(g);
+    if (currentPlayer == UNI_A) {
+        content = CAMPUS_A;
+    } else if (currentPlayer == UNI_B) {
+        content = CAMPUS_B;
+    } else if (currentPlayer == UNI_C) {
+        content = CAMPUS_C;
+    }
+
+    g->board.vertices[vertex] = content;
+
+    // Update KPI
+    incrementKPI(g, currentPlayer, BUILD_CAMPUS_KPI);
+
+    // Update number of campuses
+    g->players[currentPlayer].campuses++;
+}
+
+
+static void buildARC(Game g, int source, int destination) {
+
+    // Reduce students
+    spendStudents(g, STUDENT_BPS, 1);
+    spendStudents(g, STUDENT_BQN, 1);
+
+    // Place on board
+    int content = VACANT_ARC;
+    int currentPlayer = getWhoseTurn(g);
+    if (currentPlayer == UNI_A) {
+        content = ARC_A;
+    } else if (currentPlayer == UNI_B) {
+        content = ARC_B;
+    } else if (currentPlayer == UNI_C) {
+        content = ARC_C;
+    }
+
+    // Location
+
+    // Update KPI
+    incrementKPI(g, currentPlayer, BUILD_ARC_KPI);
+
+    // Update number of ARCs
+    g->players[currentPlayer - 1].arcs++;
+
+    // Update prestige
+    int currentMostARCCount = g->players[g->mostARCs - 1].arcs;
+    if (g->players[currentPlayer - 1].arcs > currentMostARCCount) {
+        incrementKPI(g, g->mostARCs, -MOST_ARCS_KPI);
+        g->mostARCs = currentPlayer;
+        incrementKPI(g, currentPlayer, MOST_ARCS_KPI);
+    }
+}
+
+
+static void buildGO8(Game g, int vertex) {
+
+    // Reduce students
+    spendStudents(g, STUDENT_MJ, 2);
+    spendStudents(g, STUDENT_MMONEY, 3);
+
+    // Place on board
+    int content = VACANT_VERTEX;
+    int currentPlayer = getWhoseTurn(g);
+    if (currentPlayer == UNI_A) {
+        content = GO8_A;
+    } else if (currentPlayer == UNI_B) {
+        content = GO8_B;
+    } else if (currentPlayer == UNI_C) {
+        content = GO8_C;
+    }
+
+    g->board.vertices[vertex] = content;
+
+    // Update KPI
+    incrementKPI(g, currentPlayer, BUILD_GO8_KPI);
+
+    // Update number of GO8s
+    g->players[currentPlayer - 1].go8s++;
+    g->board.totalGO8s++;
+}
+
+
+static void createPublication(Game g) {
+
+    // Reduce students
+    spendStudents(g, STUDENT_MJ, 1);
+    spendStudents(g, STUDENT_MTV, 1);
+    spendStudents(g, STUDENT_MMONEY, 1);
+
+    // Increment publications
+    int currentPlayer = getWhoseTurn(g);
+    g->players[currentPlayer - 1].publications++;
+
+    // Update prestige
+    int currentMostPublications = g->players[g->mostPublications - 1].publications;
+    if (g->players[currentPlayer - 1].publications > currentMostPublications) {
+        incrementKPI(g, g->mostPublications, -MOST_PUBLICATIONS_KPI);
+        g->mostPublications = currentPlayer;
+        incrementKPI(g, currentPlayer, MOST_PUBLICATIONS_KPI);
+    }
+}
+
+
+static void createPatent(Game g) {
+
+    // Reduce students
+    spendStudents(g, STUDENT_MJ, 1);
+    spendStudents(g, STUDENT_MTV, 1);
+    spendStudents(g, STUDENT_MMONEY, 1);
+
+    // Increment patents
+    int currentPlayer = getWhoseTurn(g);
+    g->players[currentPlayer - 1].patents++;
+
+    // Add KPI
+    incrementKPI(g, currentPlayer, PATENT_KPI);
+}

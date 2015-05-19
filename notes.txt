@@ -19,8 +19,8 @@ Game:
 
 Functions (we need to split these up amongst ourselves):
 - Hard
-    newGame
-    makeAction
+    newGame ✔ ︎
+    makeAction 
 
     isLegalAction ✔︎
 
