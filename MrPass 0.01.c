@@ -1,9 +1,9 @@
 /*
  *  Mr Pass.  Brain the size of a planet!
  *
- *  Proundly Created by Richard Buckland
+ *  Proudly Created by Richard Buckland
  *  Share Freely Creative Commons SA-BY-NC 3.0. 
- *
+ *  More proudly edited by Holy Ahel & Nathan Zhen
  */
  
 #include <stdio.h>
