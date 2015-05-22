@@ -1,9 +1,7 @@
 /*
- *  Mr Pass.  Brain the size of a planet!
- *
- *  Proudly Created by Richard Buckland
- *  Share Freely Creative Commons SA-BY-NC 3.0. 
- *  More proudly edited by Holy Ahel & Nathan Zhen
+ *  MECHA TURK
+ *  By Holly Ahel and Nathan Zhen
+ *  0.1 - Mr Pass
  */
 
 #include <stdio.h>
