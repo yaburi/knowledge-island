@@ -332,21 +332,14 @@ void throwDice (Game g, int diceScore) {
 // see discipline codes above
 int getDiscipline (Game g, int regionID) {
     
-    
+    return hexagons[(regionID+1)].discipline;
 }
 
 // what dice value produces students in the specified region?
 // 2..12
 int getDiceValue (Game g, int regionID) {
 
-    
-    
-
-
-    int diceValue = 
-
-    return diceValue;
-
+    return hexagons[(regionID+1)].diceValue;
 }
 
 // which university currently has the prestige award for the most ARCs?

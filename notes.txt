@@ -22,7 +22,11 @@ Functions (we need to split these up amongst ourselves):
     newGame ✔ ︎
     makeAction 
 
+<<<<<<< Updated upstream
     isLegalAction ✔︎
+=======
+    isLegalAction 
+>>>>>>> Stashed changes
 
 - Medium
     throwDice ✔︎
